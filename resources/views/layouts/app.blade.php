@@ -13,7 +13,7 @@
 
 <body data-layout="detached" class="loading">
 <div id="app">
-    <div class="navbar-custom topnav-navbar topnav-navbar-dark">
+    <div class="navbar-custom topnav-navbar topnav-navbar-light">
         <div class="container-fluid">
             <a href="/" class="topnav-logo">
             <span class="topnav-logo-lg">
@@ -65,16 +65,34 @@
             <div class="left-side-menu left-side-menu-detached">
                 <ul class="metismenu side-nav py-4">
                     <li class="side-nav-title side-nav-item mt-2">Navigation</li>
+                    <router-link to="/" class="side-nav-link"  active-class="text-primary">
+                        <i class="uil-home"></i>
+                        <span> Home </span>
+                        @if(auth()->user()->access_level == 'admin')
+                    </router-link>
+                        <li class="side-nav-title side-nav-item mt-2">ADMIN</li>
+                        <router-link to="/create_product" class="side-nav-link"  active-class="text-primary">
+                            <i class="uil-align-left"></i>
+                            <span> Add Product </span>
+                        </router-link>
+                        <router-link to="/view_products" class="side-nav-link"  active-class="text-primary">
+                            <i class="uil-document-layout-right"></i>
+                            <span> View Products </span>
+                        </router-link>
+                    <router-link to="/roles" class="side-nav-link"  active-class="text-primary">
+                        <i class="uil-cloud-set"></i>
+                        <span> Roles </span>
+                    </router-link>
 
-                        <li class="side-nav-title side-nav-item mt-2">Manage</li>
-                        <router-link to="/users" class="side-nav-link"  active-class="text-primary">
-                            <i class="uil-user"></i>
-                            <span> Users </span>
-                        </router-link>
-                        <router-link to="/roles" class="side-nav-link"  active-class="text-primary">
-                            <i class="uil-user-exclamation"></i>
-                            <span> Roles </span>
-                        </router-link>
+
+                    <div class="clearfix"></div>
+                    @endif
+                    <li class="side-nav-title side-nav-item mt-2">Options</li>
+                    <router-link to="/products/shop" class="side-nav-link"  active-class="text-primary">
+                        <i class="uil-document-layout-right"></i>
+                        <span> View Products </span>
+                    </router-link>
+
 
                     <div class="clearfix"></div>
                     <!-- Sidebar -left -->

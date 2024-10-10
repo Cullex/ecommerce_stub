@@ -40,9 +40,7 @@ class User extends Authenticatable implements \OwenIt\Auditing\Contracts\Auditab
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password','last_name' ,'status' , 'password_reset_token' , 'password_reset_token_expiry'
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.

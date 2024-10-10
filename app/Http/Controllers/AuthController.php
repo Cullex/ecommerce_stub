@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 use App\Events\PasswordUpdatedEvent;
 use App\Jobs\SendEmailResetToken;
+use App\Jobs\SendLoginAlert;
+use App\Jobs\SendWelcomeName;
+use App\Mail\SendWelcomeEMail;
 use App\User;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,11 +86,12 @@ class AuthController extends Controller
             {
                 Auth::loginUsingId($user->id);
                 Auth::logoutOtherDevices($request->get('password'));
+                $this->dispatch(new SendLoginAlert($user->email , $user->name));
                 return  api()->success(true)->build('Welcome Back , ' . $user->name );
             }
         }
 
-        return api()->success(false)->build('Your login credentials are incorrect or OTP');
+        return api()->success(false)->build('Your login credentials are incorrect');
     }
 
     public function logout(Request $request)
@@ -116,17 +122,17 @@ class AuthController extends Controller
         /** @var User $user */
         $user = User::query()->where('email' , '=' , $request->get('email'))->first();
 
-        if ($user)
-        {
+        if ($user) {
+            $msisdn = $user->msisdn;
                 $reset = random_int(100000 , 999999);
                 $message = 'Your password reset Token Sent to ' . $this->obfuscate_email($user->email);
+                $message_code =  'Your password reset Token is ' . $reset;
                 $user->update([
                     'password_reset_token' => Hash::make($reset),
                     'password_reset_token_expiry' => now()->addHour()
                 ]);
 
                 $this->dispatch(new SendEmailResetToken($user->email , $reset));
-
                 return api()->success(true)->build($message);
 
         }
@@ -164,7 +170,7 @@ class AuthController extends Controller
                         'password' => Hash::make($request->get('password')),
                         'password_reset' => null
                     ]);
-                    return  api()->success(true)->build('Password was changed Successfully');
+                    return  api()->success(true)->build('Password Changed Successfully');
                 }
 
                 return api()->success(false)->build('Token expired , request new Token');
@@ -177,6 +183,70 @@ class AuthController extends Controller
     public function getChangeForm()
     {
         return view('auth.change');
+    }
+
+    public function registerUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'last_name' => 'required',
+            'msisdn' => 'required|starts_with:263',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password',
+        ]);
+
+        try {
+            $user = User::create([
+                'name' => $request->get('name'),
+                'last_name' => $request->get('last_name'),
+                'msisdn' => $request->get('msisdn'),
+                'email' => $request->get('email'),
+                'password' => Hash::make($request->password),
+            ]);
+
+            $this->dispatch(new SendWelcomeName($user->email, $user->name));
+
+            return api()->success(true)->data('user', $user)->build('Registration successful.');
+
+        } catch (\Exception $e) {
+            return api()->success(false)->message($e)->build($e->getMessage());
+        }
+    }
+
+
+    public function initiateSmsAlert($msisdn, $message){
+
+        $client = new Client([
+            'base_uri' =>env('SMS_URL'),
+            'headers' => [
+                'Authorization' => env('AUTHORIZATION_KEY'),
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ]
+        ]);
+
+        $response = $client->request(
+            'POST',
+            'sms/2/text/advanced',
+            [
+                RequestOptions::JSON => [
+                    'messages' => [
+                        [
+                            'from' => env('SMS_SENDER_ID'),
+                            'destinations' => [
+                                ['to' => $msisdn]
+                            ],
+                            'text' => $message,
+                        ]
+                    ]
+                ],
+            ]
+        );
+
+        echo("HTTP code: " . $response->getStatusCode() . PHP_EOL);
+        echo("Response body: " . $response->getBody()->getContents() . PHP_EOL);
+
     }
 
 }

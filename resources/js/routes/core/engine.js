@@ -17,6 +17,9 @@ routes = routes.concat(roles);
 import dashboard from "../dashboard";
 routes = routes.concat(dashboard);
 
+import products from "../products";
+routes = routes.concat(products);
+
 
 const router = new VueRouter({
     routes :  routes

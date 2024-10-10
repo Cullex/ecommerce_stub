@@ -23,6 +23,10 @@
                 <div class="form-group mb-0 text-center">
                     <button @click.prevent="loginUser" :class="['btn btn-primary px-4' , form.loading || loading ? 'btn-loading' : '']" type="submit">Login</button>
                 </div>
+                <div>&nbsp;</div>
+                <div class="text-center w-75 m-auto">
+                    <a href="/register" class="text-primary text-center"><small>Not Registered?</small></a>
+                </div>
             </div>
         </form>
     </div>

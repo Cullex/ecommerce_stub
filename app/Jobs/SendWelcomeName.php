@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Mail\OTPMail;
+use App\Mail\registeredNameMail;
 use App\Mail\ResetTokenMail;
+use App\Mail\WelcomeNameEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,23 +12,23 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailResetToken implements ShouldQueue
+class SendWelcomeName implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $email;
-    private $otp;
+    private $registeredName;
 
     /**
      * Create a new job instance.
      *
      * @param $email
-     * @param $otp
+     * @param $registeredName
      */
-    public function __construct($email , $otp)
+    public function __construct($email , $registeredName)
     {
         $this->email = $email;
-        $this->otp = $otp;
+        $this->registeredName = $registeredName;
     }
 
     /**
@@ -37,7 +38,7 @@ class SendEmailResetToken implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new ResetTokenMail($this->otp));
+        Mail::to($this->email)->send(new WelcomeNameEmail($this->registeredName));
     }
 
     public function tags()

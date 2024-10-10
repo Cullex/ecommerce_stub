@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\LoginAlertMail;
 use App\Mail\registeredNameMail;
 use App\Mail\ResetTokenMail;
 use App\Mail\WelcomeNameEmail;
@@ -12,7 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendWelcomeName implements ShouldQueue
+class SendLoginAlert implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -38,7 +39,8 @@ class SendWelcomeName implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new WelcomeNameEmail($this->registeredName));
+        Mail::to($this->email)->send(new LoginAlertMail($this->registeredName));
+        ////change welcome
     }
 
     public function tags()

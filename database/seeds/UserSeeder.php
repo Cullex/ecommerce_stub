@@ -18,12 +18,23 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'root',
-                'email' => 'root@system',
+                'email' => 'sidyrich@gmail.com',
+                'msisdn' => '263774935699',
                 'last_name' => 'system',
                 'password' => Hash::make('password'),
                 'status' => true,
+                'access_level' => 'admin',
                 'created_at' => '2022-09-07 14:56:32',
             ],
+//            [
+//                'name' => 'ordinary',
+//                'email' => 'ordinary@system',
+//                'last_name' => 'system',
+//                'password' => Hash::make('password'),
+//                'status' => true,
+//                'access_level' => 'ordinary',
+//                'created_at' => '2022-09-07 14:56:32',
+//            ],
         ];
         User::insert($users);
 

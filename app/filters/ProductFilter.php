@@ -4,7 +4,7 @@
 namespace App\filters;
 
 
-class ClientFilter extends BaseFilter
+class ProductFilter extends BaseFilter
 {
     protected  $filters = [
         'search'
@@ -23,10 +23,8 @@ class ClientFilter extends BaseFilter
     ];
 
     protected $search = [
-        'title',
-        'firstName',
-        'lastName',
-        'address',
-        'status'
+        'name',
+        'description',
+        'price',
     ];
 }

@@ -7,20 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
-class ResetTokenMail extends Mailable
+class WelcomeNameEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $otp;
+    private $registeredName;
 
     /**
      * Create a new message instance.
      *
-     * @param $otp
+     * @param $registeredName
      */
-    public function __construct($otp)
+    public function __construct($registeredName)
     {
-        $this->otp = $otp;
+        $this->registeredName = $registeredName;
     }
 
     /**
@@ -30,12 +30,12 @@ class ResetTokenMail extends Mailable
      */
     public function build()
     {
-        $message = "Reset Token is {$this->otp} , Token will expire in 60 minutes";
+        $message = "Dear {$this->registeredName} , your profile has been successfully registered";
         $mail = (new MailMessage)
             ->greeting('Good Day!')
             ->line($message)
             ->line('Thank you for using our application!');
-        return  $this->subject('Reset Token')
+        return  $this->subject('Welcome Alert')
             ->markdown('vendor.notifications.email' , $mail->data());
 
     }

@@ -2,12 +2,13 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeNameEmail extends Mailable
+class LoginAlertMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,12 +31,14 @@ class WelcomeNameEmail extends Mailable
      */
     public function build()
     {
-        $message = "Dear {$this->registeredName} , your profile has been successfully registered";
+        $time = Carbon::now()->format('d/m/Y H:i:s');
+        $message = "Dear {$this->registeredName} , there was a login on your account at ".$time. ' If 
+        this is not you contact support to secure your account';
         $mail = (new MailMessage)
             ->greeting('Good Day!')
             ->line($message)
             ->line('Thank you for using our application!');
-        return  $this->subject('Reset Token')
+        return  $this->subject('Login Alert')
             ->markdown('vendor.notifications.email' , $mail->data());
 
     }

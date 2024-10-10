@@ -1,8 +1,56 @@
+<script>
+    import Form from "../../core/forms/form";
+    export default {
+        name: "register",
+        data()
+        {
+            return {
+                loading : false,
+                error : false,
+                message : '',
+                form : new Form({
+                    email : '',
+                    msisdn : '',
+                    name : '',
+                    last_name : '',
+                    password : '',
+                    password_confirmation : ''
+                })
+            };
+        },
+        methods : {
+            registerUser()
+            {
+                this.loading = true;
+                this.error = false;
+                this.message = "";
+                this.form.submit('/registerUser').then((response) => {
+                    if (response.data.success === true ){
+                        this.message = response.data.message;
+                        setTimeout(function () {
+                            window.location = `${window.location.origin}/`;
+                        } , 2000 );
+                        Swal.fire(
+                            'Successful',
+                            'You have successfully registered',
+                            'success'
+                        )
+                    } else {
+                        this.message = response.data.message;
+                        this.loading = false;
+                        this.error = true;
+                    }
+                }).catch((error) => {
+                    this.loading = false;
+                });
+            }
+        }
+    }
+</script>
 <template>
     <div class="">
         <form @submit.prevent="register" autocomplete="off" class="card-body px-4">
             <div class="text-center w-75 m-auto">
-                <h4 class="text-dark-50 text-center mt-0 font-weight-bold">VACANCIES APPLICATION MANAGEMENT</h4>
                 <p class="text-muted mb-3">Enter your details below</p>
             </div>
             <p v-if="message" :class="['alert text-center mb-0 rounded-0 mb-3 px-3' , error ? 'alert-danger' : 'alert-success']">
@@ -33,9 +81,9 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group  col-md-6">
-                        <label>Phone</label>
-                        <input type="number" v-model="form.phone" :class="[ 'form-control' , form.errors.get('phone') ? 'is-invalid' : '' ]" placeholder="Enter your phone" autocomplete="unique-1">
-                        <div v-text="form.errors.get('phone')" class="invalid-feedback"/>
+                        <label>Mobile Number</label>
+                        <input type="number" v-model="form.msisdn" :class="[ 'form-control' , form.errors.get('msisdn') ? 'is-invalid' : '' ]" placeholder="Enter your msisdn" autocomplete="unique-1">
+                        <div v-text="form.errors.get('msisdn')" class="invalid-feedback"/>
                     </div>
                     <div class="form-group  col-md-6">
                         <label>Email address</label>
@@ -74,52 +122,4 @@
     </div>
 </template>
 
-<script>
-import Form from "../../core/forms/form";
-export default {
-    name: "register",
-    data()
-    {
-        return {
-            loading : false,
-            error : false,
-            message : '',
-            form : new Form({
-                email : '',
-                phone : '',
-                name : '',
-                last_name : '',
-                password : '',
-                password_confirmation : ''
-            })
-        };
-    },
-    methods : {
-        registerUser()
-        {
-            this.loading = true;
-            this.error = false;
-            this.message = "";
-            this.form.submit('/registerUser').then((response) => {
-                if (response.data.success === true ){
-                    Swal.fire(
-                        'Successful!',
-                        'You have successfully registered',
-                        'success'
-                    )
-                    this.message = response.data.message;
-                    setTimeout(function () {
-                        window.location = `${window.location.origin}/`;
-                    } , 2000 );
-                } else {
-                    this.message = response.data.message;
-                    this.loading = false;
-                    this.error = true;
-                }
-            }).catch((error) => {
-                this.loading = false;
-            });
-        }
-    }
-}
-</script>
+

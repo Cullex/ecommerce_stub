@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\User;
@@ -22,12 +23,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function (){
     Route::get('/login' , [ AuthController::class , 'loginView' ])->name('login');
     Route::post('/login' , [ AuthController::class , 'login']);
+    Route::get('/register', [AuthController::class, 'registerView'])->name('registerView');
 });
 
 Route::post('/logout' , [AuthController::class , 'logout'])->name('logout');
 Route::get('/password/reset' , [AuthController::class , 'getResetForm']);
 Route::post('/password/reset' , [AuthController::class , 'reset']);
 Route::post('/reset' , [AuthController::class , 'resetPassword']);
+Route::post('/registerUser', [AuthController::class, 'registerUser'])->name('registerUser');
 
 Route::middleware('auth')->group(function (){
 
@@ -58,6 +61,21 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('permissions')->group(function (){
         Route::get('/' ,  [PermissionController::class , 'index']);
+    });
+
+    Route::prefix('products')->group(function (){
+        //add product
+        Route::post('/add_product', [ProductController::class, 'create']);
+        //show all products
+        Route::get('/all_products', [ProductController::class, 'index']);
+        //show single product
+        Route::get('/view_product/{id}', [ProductController::class, 'show']);
+        //delete
+        Route::post('/delete_product/{id}', [ProductController::class, 'destroy']);
+        //update
+        Route::post('/update_product/{id}', [ProductController::class, 'update']);
+        //shopping list for customer
+        Route::get('/shopping_list', [ProductController::class, 'customerProducts']);
     });
 
 });

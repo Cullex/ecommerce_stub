@@ -9,10 +9,11 @@ require('./boot/helpers');
 
 import Login  from "./components/auth/Login";
 import Reset from "./components/auth/Reset";
+import Register from "./components/auth/Register";
 
 window.vue = new Vue({
     router : router,
-    components : { Login , Reset } ,
+    components : { Login , Reset, Register } ,
     el: '#app',
     methods : {
         logout : function () {
