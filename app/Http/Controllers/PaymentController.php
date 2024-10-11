@@ -22,7 +22,6 @@ class PaymentController extends Controller
 
     public function createPayment(Request $request)
     {
-        // Validate incoming request
         $request->validate([
             'user_id' => 'required|integer',
             'product' => 'required|array',
@@ -40,7 +39,6 @@ class PaymentController extends Controller
         $response = $this->paynow->send($payment);
 
         if ($response->success()) {
-            // Here you can store the sale details in the database
             DB::table('sales')->insert([
                 'user_id' => $request->user_id,
                 'product' => json_encode($request->product),

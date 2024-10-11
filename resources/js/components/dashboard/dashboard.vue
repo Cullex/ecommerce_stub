@@ -4,6 +4,9 @@
         components: { PageIndex },
         data() {
             return {
+                totalUsers: 0,
+                totalProducts: 0,
+                totalSales: 0,
                 user: window.user,
                 products: [],
                 cart: {
@@ -22,6 +25,15 @@
                 })
                 .catch((errors) => {
                     this.errors = errors.response.data.errors;
+                });
+            window.axios.get('/dashboardStats')
+                .then(response => {
+                    this.totalUsers = response.data.totalUsers;
+                    this.totalProducts = response.data.totalProducts;
+                    this.totalSales = response.data.totalSales;
+                })
+                .catch(error => {
+                    console.error('Error fetching dashboard data:', error);
                 });
         },
         methods: {
@@ -85,8 +97,33 @@
 </script>
 <template>
     <div>
+            <div v-if="user.access_level === 'admin'" class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text">{{totalUsers}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <p class="card-text">{{totalProducts}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Sales</h5>
+                            <p class="card-text">{{totalSales}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <h4 class="mt-4">Items List</h4>
-
         <!-- Show products for all users -->
         <page-index url="/products/all_products" prefix="products" name="Listed Items">
             <template slot="sort-fields">
@@ -152,7 +189,6 @@
         margin-bottom: 20px;
     }
 
-    /* Cart summary styling fixed to top right */
     .cart-summary {
         position: fixed;
         top: 20px;
@@ -161,7 +197,7 @@
         border: 1px solid #ddd;
         padding: 20px;
         width: 300px;
-        z-index: 1000; /* Ensure it's on top */
+        z-index: 1000;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 

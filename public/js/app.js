@@ -539,6 +539,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   },
   data: function data() {
     return {
+      totalUsers: 0,
+      totalProducts: 0,
+      totalSales: 0,
       user: window.user,
       products: [],
       cart: {
@@ -555,6 +558,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       _this.products = response.data.products;
     })["catch"](function (errors) {
       _this.errors = errors.response.data.errors;
+    });
+    window.axios.get('/dashboardStats').then(function (response) {
+      _this.totalUsers = response.data.totalUsers;
+      _this.totalProducts = response.data.totalProducts;
+      _this.totalSales = response.data.totalSales;
+    })["catch"](function (error) {
+      console.error('Error fetching dashboard data:', error);
     });
   },
   methods: {
@@ -4495,7 +4505,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-96ac3b44] {\n    margin-bottom: 20px;\n}\n\n/* Cart summary styling fixed to top right */\n.cart-summary[data-v-96ac3b44] {\n    position: fixed;\n    top: 20px;\n    right: 20px;\n    background-color: #fff;\n    border: 1px solid #ddd;\n    padding: 20px;\n    width: 300px;\n    z-index: 1000; /* Ensure it's on top */\n    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);\n}\n.cart-summary button[data-v-96ac3b44] {\n    width: 100%;\n    margin-top: 10px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-96ac3b44] {\n    margin-bottom: 20px;\n}\n.cart-summary[data-v-96ac3b44] {\n    position: fixed;\n    top: 20px;\n    right: 20px;\n    background-color: #fff;\n    border: 1px solid #ddd;\n    padding: 20px;\n    width: 300px;\n    z-index: 1000;\n    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);\n}\n.cart-summary button[data-v-96ac3b44] {\n    width: 100%;\n    margin-top: 10px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12997,6 +13007,52 @@ var render = function () {
   return _c(
     "div",
     [
+      _vm.user.access_level === "admin"
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v("Total Users"),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(_vm._s(_vm.totalUsers)),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v("Total Products"),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(_vm._s(_vm.totalProducts)),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v("Total Sales"),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(_vm._s(_vm.totalSales)),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("h4", { staticClass: "mt-4" }, [_vm._v("Items List")]),
       _vm._v(" "),
       _c(
