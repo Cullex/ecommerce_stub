@@ -9,7 +9,7 @@
                     category: "",
                     price: 0,
                     image: null,
-                    imagePreview: null,  // Holds the image preview data
+                    imagePreview: null,
                 },
                 errors: {},
                 isDragActive: false

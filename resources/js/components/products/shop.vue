@@ -63,8 +63,7 @@
 
 <template>
     <div>
-        <h3 class="mt-4">Items List</h3>
-
+        <h4 class="mt-4">Items List</h4>
         <page-index url="/products/all_products" prefix="products" name="Listed Items">
             <template slot="sort-fields">
                 <option value="created_at">Created</option>
@@ -128,7 +127,7 @@
         right: 20px;
         cursor: pointer;
         font-size: 24px;
-        z-index: 2000; /* Ensure the icon is also on top */
+        z-index: 2000;
     }
     .cart-summary {
         position: fixed;
@@ -138,8 +137,8 @@
         border: 1px solid #ddd;
         padding: 20px;
         width: 300px;
-        z-index: 1000; /* Bring to forefront */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
     .cart-summary button {
         width: 100%;

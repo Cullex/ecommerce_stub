@@ -26,15 +26,16 @@ class UserSeeder extends Seeder
                 'access_level' => 'admin',
                 'created_at' => '2022-09-07 14:56:32',
             ],
-//            [
-//                'name' => 'ordinary',
-//                'email' => 'ordinary@system',
-//                'last_name' => 'system',
-//                'password' => Hash::make('password'),
-//                'status' => true,
-//                'access_level' => 'ordinary',
-//                'created_at' => '2022-09-07 14:56:32',
-//            ],
+            [
+                'name' => 'ordinary',
+                'email' => 'sidyrich@icloud.com',
+                'msisdn' => '263713764301',
+                'last_name' => 'system',
+                'password' => Hash::make('password'),
+                'status' => true,
+                'access_level' => 'ordinary',
+                'created_at' => '2022-09-07 14:56:32',
+            ],
         ];
         User::insert($users);
 

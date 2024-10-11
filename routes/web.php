@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,11 +33,16 @@ Route::post('/password/reset' , [AuthController::class , 'reset']);
 Route::post('/reset' , [AuthController::class , 'resetPassword']);
 Route::post('/registerUser', [AuthController::class, 'registerUser'])->name('registerUser');
 
+Route::post('/payment/create', [PaymentController::class, 'createPayment'])->name('payment.create');
+Route::post('/gateways/paynow/update', [PaymentController::class, 'paymentUpdate'])->name('payment.update');
+
+
 Route::middleware('auth')->group(function (){
 
     Route::post('/password' , [AuthController::class , 'password']);
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboardStats', [HomeController::class, 'dashboardStats'])->name('dashboardStats');
 
     /*
      * Users

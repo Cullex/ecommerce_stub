@@ -3,6 +3,7 @@
         name: "view_product",
         data() {
             return {
+                user: window.user,
                 product: {
                     name: '',
                     description: '',
@@ -99,7 +100,7 @@
                                 <form class="ps-lg-4">
                                     <!-- Product title -->
                                     <h3 class="mt-0">{{ product.name }}</h3>
-                                    <p class="mb-1">Added Date: {{ product.created_at | formatDate }}</p>
+                                    <p class="mb-1">Added Date: {{ product.created_at | string_limit(10) }}</p>
 
                                     <!-- Product price -->
                                     <div class="mt-4">
@@ -125,15 +126,16 @@
                                                 <p class="text-sm lh-150">{{ product.orders_count }}</p>
                                             </div>
                                             <div class="col-md-4">
-                                                <h6 class="font-14">Revenue:</h6>
-                                                <p class="text-sm lh-150">${{ product.revenue }}</p>
+                                                <h6 class="font-14">Viewed by:</h6>
+                                                <p class="text-sm lh-150">{{ product.revenue }} people</p>
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    <div v-if="user.access_level === 'admin'">
                                     <button type="submit" @click="deleteProduct" class="btn btn-primary">Delete</button>
                                      ||
                                     <button @click.prevent="navigateToUpdate" class="btn btn-outline-primary ms-2">Edit</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

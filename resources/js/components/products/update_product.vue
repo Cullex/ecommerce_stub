@@ -21,11 +21,10 @@
                     const response = await window.axios.get(`products/view_product/${id}`);
                     this.product = {
                         ...response.data,
-                        imagePreview: response.data.image_url // Assuming image_url is the field for the image URL
+                        imagePreview: response.data.image_url
                     };
                 } catch (error) {
                     console.error('Error fetching product:', error);
-                    // Handle error, possibly show a message
                 }
             },
 
@@ -34,7 +33,7 @@
                 const file = event.target.files[0];
                 if (file) {
                     this.product.image = file;
-                    this.previewImage(file);  // Preview the image
+                    this.previewImage(file);
                 }
             },
 
@@ -103,7 +102,7 @@
             }
         },
         mounted() {
-            const productId = this.$route.params.id; // Assuming you're passing the product ID as a route parameter
+            const productId = this.$route.params.id;
             this.fetchProduct(productId);
         }
     };
