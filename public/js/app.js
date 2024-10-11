@@ -114,6 +114,7 @@ __webpack_require__.r(__webpack_exports__);
       form: new _core_forms_form__WEBPACK_IMPORTED_MODULE_0__["default"]({
         email: '',
         msisdn: '',
+        address: '',
         name: '',
         last_name: '',
         password: '',
@@ -11317,6 +11318,44 @@ var render = function () {
                 },
               }),
             ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-md-12" }, [
+            _c("label", [_vm._v("Address")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.address,
+                  expression: "form.address",
+                },
+              ],
+              class: [
+                "form-control",
+                _vm.form.errors.get("address") ? "is-invalid" : "",
+              ],
+              attrs: {
+                type: "text",
+                placeholder: "Enter your address",
+                autocomplete: "unique-1",
+              },
+              domProps: { value: _vm.form.address },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "address", $event.target.value)
+                },
+              },
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: { textContent: _vm._s(_vm.form.errors.get("address")) },
+            }),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group mb-0 text-center" }, [

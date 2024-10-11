@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('access_level')->default('ordinary');
             $table->string('msisdn')->unique()->nullable();
             $table->string('email')->unique();
+            $table->string('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password_reset_token')->nullable();
             $table->timestamp('password_reset_token_expiry')->nullable();

@@ -11,6 +11,7 @@
                 form : new Form({
                     email : '',
                     msisdn : '',
+                    address : '',
                     name : '',
                     last_name : '',
                     password : '',
@@ -108,7 +109,11 @@
                         <div v-text="form.errors.get('password_confirmation')" class="invalid-feedback"/>
                     </div>
                 </div>
-
+                <div class="form-group col-md-12">
+                    <label>Address</label>
+                    <input type="text" v-model="form.address" :class="[ 'form-control' , form.errors.get('address') ? 'is-invalid' : '' ]" placeholder="Enter your address" autocomplete="unique-1">
+                    <div v-text="form.errors.get('address')" class="invalid-feedback"/>
+                </div>
                 <div class="form-group mb-0 text-center">
                     <button @click.prevent="registerUser" :class="['btn btn-primary px-4' , form.loading || loading ? 'btn-loading' : '']" type="submit"> Register </button>
                 </div>

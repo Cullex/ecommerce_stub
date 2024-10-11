@@ -190,6 +190,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'last_name' => 'required',
+            'address' => 'required',
             'msisdn' => 'required|starts_with:263',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
@@ -201,6 +202,7 @@ class AuthController extends Controller
                 'name' => $request->get('name'),
                 'last_name' => $request->get('last_name'),
                 'msisdn' => $request->get('msisdn'),
+                'address' =>$request->get('address'),
                 'email' => $request->get('email'),
                 'password' => Hash::make($request->password),
             ]);
